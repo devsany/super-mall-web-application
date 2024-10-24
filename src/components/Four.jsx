@@ -8,8 +8,6 @@ const Four = () => {
   const [productNameArr, setProductNameArr] = useState([]);
   const [productPriceArr, setProductPriceArr] = useState([]);
 
-  console.log(productNameArr);
-  console.log(productPriceArr);
   const handleSubmit = () => {
     const error = {};
     if (!productName) {
@@ -33,7 +31,14 @@ const Four = () => {
   }, []);
   return (
     <div>
-      <button onClick={() => setToggle(!toggle)}>Question Number 4</button>
+      <button className="w-full" onClick={() => setToggle(!toggle)}>
+        Question Number 4 <br />
+        <div className="font-thin">
+          Storing the input data with Product Name and Product Price as an
+          object into array, displaying that list data, calculating total
+          Product Price using javascript.
+        </div>
+      </button>
       {toggle && (
         <>
           <h2>Task Four</h2>

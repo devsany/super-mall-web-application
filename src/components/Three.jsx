@@ -28,11 +28,15 @@ const Three = () => {
   const totalSold = sortedData.reduce((accu, item) => {
     return Number(accu) + item;
   }, []);
-  console.log(totalSold);
-  console.log(sortedData);
   return (
     <div>
-      <button onClick={() => setToggle(!toggle)}>Question number 3</button>
+      <button className="w-full" onClick={() => setToggle(!toggle)}>
+        Question number 3 <br />
+        <div className="font-thin">
+          Storing input textbox value into an array, displaying that array list,
+          then calculating total sale price & total profit using Javascript
+        </div>
+      </button>
       {toggle ? (
         <>
           <h2>Task Three</h2>

@@ -18,11 +18,16 @@ const Two = () => {
   });
   const itemString = sorted.filter((item) => typeof item == "string");
   const itemNumber = sorted.filter((item) => typeof item == "number");
-  console.log(sorted);
+
   return (
     <div>
-      <button onClick={() => setQuestion2(!question2)}>
+      <button className="w-full" onClick={() => setQuestion2(!question2)}>
         Question Number 2
+        <br />
+        <div className="font-thin">
+          Storing input textbox value into an array, displaying the separate
+          Number Array and String Array Using Javascript
+        </div>
       </button>
       {question2 && (
         <>
@@ -41,7 +46,9 @@ const Two = () => {
             onChange={(e) => setData1(e.target.value)}
           />
           <div className="text-red-600">{error ? <>{error}</> : null}</div>
-          <button onClick={handleStringSubmit}>Submit</button>
+          <button className="w-full" onClick={handleStringSubmit}>
+            Submit
+          </button>
           <div className="flex">
             <div className="border p-4">
               Sorted String
