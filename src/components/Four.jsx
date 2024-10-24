@@ -2,10 +2,12 @@ import React, { useState } from "react";
 
 const Four = () => {
   const [error, setError] = useState({});
+  const [toggle, setToggle] = useState(false);
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
   const [productNameArr, setProductNameArr] = useState([]);
   const [productPriceArr, setProductPriceArr] = useState([]);
+
   console.log(productNameArr);
   console.log(productPriceArr);
   const handleSubmit = () => {
@@ -31,6 +33,7 @@ const Four = () => {
   }, []);
   return (
     <div>
+      <button onClick={() => setToggle(!toggle)}>Question Number 4</button>
       <h2>Task Four</h2>
       <h3>
         Storing the input data with Product Name and Product Price as an object
