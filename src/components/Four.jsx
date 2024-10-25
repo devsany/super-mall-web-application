@@ -5,8 +5,9 @@ const Four = () => {
   const [toggle, setToggle] = useState(false);
   const [productName, setProductName] = useState("");
   const [productPrice, setProductPrice] = useState(0);
-  const [productNameArr, setProductNameArr] = useState([]);
   const [productPriceArr, setProductPriceArr] = useState([]);
+  const [productNameArr, setProductNameArr] = useState([]);
+  const [mainArr, setMainArr] = useState([]);
 
   const handleSubmit = () => {
     const error = {};
@@ -17,6 +18,10 @@ const Four = () => {
     } else {
       setProductPriceArr([...productPriceArr, productPrice]);
       setProductNameArr([...productNameArr, productName]);
+      setMainArr([
+        ...mainArr,
+        { proName: productName, proPrice: productPrice },
+      ]);
       setProductName("");
       setProductPrice("");
     }
@@ -87,18 +92,12 @@ const Four = () => {
               <div className="border p-4">
                 <h3>Sale Price</h3>
                 <hr />
-                {productNameArr.map((item) => {
+                {mainArr.map((item) => {
                   return (
                     <>
-                      {price.map((itemPrice, index) => {
-                        return (
-                          <>
-                            <li key={index}>
-                              {item}-{itemPrice}
-                            </li>
-                          </>
-                        );
-                      })}
+                      <li>
+                        {item.proName} - {item.proPrice}
+                      </li>
                     </>
                   );
                 })}
