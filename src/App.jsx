@@ -11,6 +11,9 @@ import AdminDashboard from "./components/ADMIN/AdminDashboard";
 import Home from "./components/Home";
 import AdminError from "./components/ADMIN/AdminError";
 import AdminCreateShop from "./components/ADMIN/AdminCreateShop";
+import AdminListAllShop from "./components/ADMIN/AdminListAllShop";
+import AdminViewShopID from "./components/ADMIN/AdminViewShopID";
+import AdminShopOffer from "./components/ADMIN/AdminShopOffer";
 
 const App = () => {
   return (
@@ -26,11 +29,11 @@ const App = () => {
 
         {/* admin section */}
 
-        <Route
-          path="/admin/create_shop"
-          element={<AdminCreateShop />}
-        />
+        <Route path="/admin/create_shop" element={<AdminCreateShop />} />
         <Route path="/admin_error" element={<AdminError />} />
+        <Route path="/admin/list_of_all_shop" element={<AdminListAllShop />} />
+        <Route path="/admin/view/:id" element={<AdminViewShopID />} />
+        <Route path="/admin/view/offer/:id" element={<AdminShopOffer />} />
         {/* Add other routes here */}
       </Routes>
     </Router>

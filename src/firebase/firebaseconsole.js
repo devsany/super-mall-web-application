@@ -23,3 +23,4 @@ export const auth = getAuth(app);
 
 // fire store
 export const db = getFirestore(app);
+export default app;
