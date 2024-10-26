@@ -26,8 +26,7 @@ const AdminCreateShop = () => {
       shopFloor: inputField.shopFloor,
       shopOwnerName: inputField.shopOwnerName,
       shopType: inputField.shopType,
-      shopOffer: [""],
-      
+      shopOffer: "",
     })
       .then(() => {
         alert("data saved successfully");

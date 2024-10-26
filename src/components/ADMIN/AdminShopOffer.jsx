@@ -1,8 +1,13 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { get, getDatabase, ref, update } from "firebase/database";
+import React, { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
+import app from "../../firebase/firebaseconsole";
 
 const AdminShopOffer = () => {
-  const { id } = useNavigate();
+  const { id } = useParams();
+  const nav = useNavigate();
+  const [shopkey, setShopKey] = useState("");
+
   const [inputFields, setInputFields] = useState([
     {
       offerName: "",
@@ -13,7 +18,8 @@ const AdminShopOffer = () => {
       offerDiscountPrice: "",
     },
   ]);
-
+  console.log(JSON.stringify(inputFields));
+  console.log(inputFields);
   // Handle input change
   const handleInputChange = (index, event) => {
     const { name, value } = event.target;
@@ -43,27 +49,67 @@ const AdminShopOffer = () => {
     const updatedFields = inputFields.filter((_, i) => i !== index);
     setInputFields(updatedFields);
   };
-  const handleSubmit = () => {
-    if (!inputFields.offerName) console.log(inputFields);
+  const handleSubmit = async () => {
+    if (!inputFields.offerName);
+    console.log(inputFields);
+    if (shopkey) {
+      const db = getDatabase(app);
+      const dataRef = ref(db, `mall/shops/${shopkey}`);
+      update(dataRef, {
+        shopOffer: inputFields,
+      })
+        .then(() => {
+          alert("offer updated successfully!");
+        })
+        .catch((error) => {
+          alert("Error updating teacher:", error);
+        });
+    } else {
+      alert("No teacher selected to update.");
+    }
+
+    const db = getDatabase(app);
+    const dataRef = ref(db, "mall/shops");
+    const snapshot = await get(dataRef);
+    console.log(Object.values(snapshot.val())[id]);
+    const key = Object.keys(snapshot.val())[id];
+    console.log(key);
   };
+
+  const fetchData = async () => {
+    const db = getDatabase(app);
+    const dataRef = ref(db, "mall/shops");
+    const snapshot = await get(dataRef);
+    const key = Object.keys(snapshot.val())[id];
+    setShopKey(key);
+    if (snapshot.exists()) {
+      console.log(Object.values(snapshot.val())[id]);
+      console.log(Object.values(snapshot.val())[id]);
+    } else {
+      alert("data is not found");
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <div>
       AdminShopOffer-{id}
       <div className="text-center font-mono">
         <h2>Offer Section</h2>
       </div>
-      <div className="grid grid-cols-12 border rounded-md p-4 m-3">
+      <div className="grid grid-cols-12 font-mono border rounded-md p-4 m-3">
         <div className="grid col-span-9">
           {inputFields.map((inputField, index) => (
-            <div className="grid-cols-4 mt-3 grid border p-4" key={index}>
-              <div>
+            <div className="grid-cols-4 mt-3 grid gap-4 border p-4" key={index}>
+              <div className="border ">
                 <div>
                   <label htmlFor="offerName">Offer Name</label>
                 </div>
                 <input
                   id="offerName"
                   required
-                  className="border pl-2 m-2"
+                  className="border pl-2w-[185px]"
                   type="text"
                   name="offerName"
                   placeholder="Offer Name"
@@ -71,13 +117,13 @@ const AdminShopOffer = () => {
                   onChange={(event) => handleInputChange(index, event)}
                 />
               </div>
-              <div>
+              <div className="border ">
                 <div>
                   <label htmlFor="offerDiscription">Offer Discription</label>
                 </div>
                 <input
                   id="offerDiscription"
-                  className="border pl-2 m-2"
+                  className="border pl-2     w-[185px]"
                   type="text"
                   name="offerDiscription"
                   placeholder="offerDiscription"
@@ -92,12 +138,12 @@ const AdminShopOffer = () => {
         offerExpier: "",
         offerOriginalPrice: "",
         offerDiscountPrice: "", */}
-              <div>
+              <div className="border p-2 ">
                 <div>
                   <label htmlFor="offerDiscount">Offer Discount</label>
                 </div>
                 <input
-                  className="border pl-2 m-2"
+                  className="border pl-2     w-[185px]"
                   id="offerDiscont"
                   type="text"
                   name="offerDiscount"
@@ -106,13 +152,13 @@ const AdminShopOffer = () => {
                   onChange={(event) => handleInputChange(index, event)}
                 />
               </div>
-              <div>
+              <div className="border ">
                 <div>
                   <label htmlFor="offerReleaseDate">Offer Release Date</label>
                 </div>
                 <input
                   id="offerReleaseDate"
-                  className="border pl-2 m-2"
+                  className="border pl-2     w-[185px]"
                   type="date"
                   name="offerReleaseDate"
                   placeholder="offerReleaseDate"
@@ -120,13 +166,13 @@ const AdminShopOffer = () => {
                   onChange={(event) => handleInputChange(index, event)}
                 />
               </div>
-              <div>
+              <div className="border ">
                 <div>
                   <label htmlFor="offerExpier">Offer Expier</label>
                 </div>
                 <input
                   id="offerExpier"
-                  className="border pl-2 m-2"
+                  className="border pl-2     w-[185px]"
                   type="date"
                   name="offerExpier"
                   placeholder="offerExpier"
@@ -134,7 +180,7 @@ const AdminShopOffer = () => {
                   onChange={(event) => handleInputChange(index, event)}
                 />
               </div>
-              <div>
+              <div className="border ">
                 <div>
                   <label htmlFor="offerOriginalPrice">
                     Offer Original Price
@@ -142,7 +188,7 @@ const AdminShopOffer = () => {
                 </div>
                 <input
                   id="offerOriginalPrice"
-                  className="border pl-2 m-2"
+                  className="border pl-2     w-[185px]"
                   type="text"
                   name="offerOriginalPrice"
                   placeholder="offerOriginalPrice"
@@ -150,7 +196,7 @@ const AdminShopOffer = () => {
                   onChange={(event) => handleInputChange(index, event)}
                 />
               </div>
-              <div>
+              <div className="border ">
                 <div>
                   <label htmlFor="offerDiscountPrice">
                     Offer Discount Price
@@ -158,7 +204,7 @@ const AdminShopOffer = () => {
                 </div>
                 <input
                   id="offerDiscountPrice"
-                  className="border pl-2 m-2"
+                  className="border pl-2     w-[185px]"
                   type="text"
                   name="offerDiscountPrice"
                   placeholder="offerDiscountPrice"
