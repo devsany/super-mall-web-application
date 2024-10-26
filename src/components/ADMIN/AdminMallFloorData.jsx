@@ -1,16 +1,15 @@
-import { get, getDatabase, ref, remove } from "firebase/database";
-import React, { useEffect, useState } from "react";
+import { forceLongPolling, get, getDatabase, ref } from "firebase/database";
+import React, { useEffect, useMemo, useState } from "react";
 import app from "../../firebase/firebaseconsole";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { query } from "firebase/firestore";
 
-const AdminListAllShop = () => {
+const AdminMallFloorData = () => {
+  const [floorNumber, setFloorNumber] = useState(0);
   const [data, setData] = useState([]);
-  const [shopKey, setShopKey] = useState("");
-  const nav = useNavigate();
-
   const fetchData = async () => {
     const db = getDatabase(app);
-    const dataRef = ref(db, "mall/shops"); 
+    const dataRef = ref(db, "mall/shops");
     const snapshot = await get(dataRef);
     if (snapshot.exists()) {
       setData(Object.values(snapshot.val()));
@@ -18,43 +17,26 @@ const AdminListAllShop = () => {
       alert("data is not found");
     }
   };
-  const handleDeleteShop = async (id) => {
-    const db = getDatabase(app);
-    const dataRef = ref(db, "mall/shops");
-    const snapshot = await get(dataRef);
 
-    if (snapshot.exists()) {
-      const key = Object.keys(snapshot.val())[id];
-      setShopKey(key);
-      if (key) {
-        // Ensure a teacher has been fetched
-        const db = getDatabase();
-        const teacherRef = ref(db, `mall/shops/${key}`); // Reference to the specific teacher record
-
-        // Remove the teacher's data from the database
-        remove(teacherRef)
-          .then(() => {
-            alert("Teacher deleted successfully!");
-            window.location.reload();
-            console.log(shopKey);
-          })
-          .catch((error) => {
-            alert("Error deleting teacher:", error);
-          });
-      } else {
-        alert("No teacher selected for deletion.");
-      }
-    }
-  };
+  const nav = useNavigate();
   useEffect(() => {
     fetchData();
   }, []);
   return (
     <div>
+      {" "}
       <div className="text-center font-mono">
         <h2>All Shop</h2>
       </div>
       <button onClick={() => nav("/admin")}>Back</button>
+      <div>
+        <label htmlFor="floorNumber">Floor Number</label>
+        <input
+          type="number"
+          placeholder="Enter floor number"
+          onChange={(e) => setFloorNumber(e.target.value)}
+        />
+      </div>
       <div className="relative overflow-x-auto">
         <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
           <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
@@ -87,22 +69,6 @@ const AdminListAllShop = () => {
                       <td className="px-6 py-4">{item.shopNumber}</td>
                       <td className="px-6 py-4">{item.shopFloor}</td>
                       <td className="px-6 py-4">{item.shopType}</td>
-                      <td>
-                        <NavLink
-                          to={`/admin/view/${index}`}
-                          className="bg-blue-100 pl-4 pt-2 pb-2 rounded-md pr-4 hover:text-blue-700 border border-slate-300"
-                        >
-                          View
-                        </NavLink>
-                      </td>
-                      <td>
-                        <button
-                          onClick={() => handleDeleteShop(index)}
-                          className="bg-red-200 hover:text-red-700 border border-red-300"
-                        >
-                          Delete
-                        </button>
-                      </td>
                     </tr>
                   </>
                 );
@@ -114,4 +80,4 @@ const AdminListAllShop = () => {
   );
 };
 
-export default AdminListAllShop;
+export default AdminMallFloorData;

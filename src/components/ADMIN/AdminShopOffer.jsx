@@ -16,6 +16,7 @@ const AdminShopOffer = () => {
       offerExpier: "",
       offerOriginalPrice: "",
       offerDiscountPrice: "",
+      offerImageUrl: "",
     },
   ]);
   console.log(JSON.stringify(inputFields));
@@ -40,6 +41,7 @@ const AdminShopOffer = () => {
         offerExpier: "",
         offerOriginalPrice: "",
         offerDiscountPrice: "",
+        offerImageUrl: "",
       },
     ]);
   };
@@ -50,8 +52,6 @@ const AdminShopOffer = () => {
     setInputFields(updatedFields);
   };
   const handleSubmit = async () => {
-    if (!inputFields.offerName);
-    console.log(inputFields);
     if (shopkey) {
       const db = getDatabase(app);
       const dataRef = ref(db, `mall/shops/${shopkey}`);
@@ -67,13 +67,6 @@ const AdminShopOffer = () => {
     } else {
       alert("No teacher selected to update.");
     }
-
-    const db = getDatabase(app);
-    const dataRef = ref(db, "mall/shops");
-    const snapshot = await get(dataRef);
-    console.log(Object.values(snapshot.val())[id]);
-    const key = Object.keys(snapshot.val())[id];
-    console.log(key);
   };
 
   const fetchData = async () => {
@@ -98,6 +91,7 @@ const AdminShopOffer = () => {
       <div className="text-center font-mono">
         <h2>Offer Section</h2>
       </div>
+      <button onClick={() => nav(`/admin/view/${id}`)}>Back</button>
       <div className="grid grid-cols-12 font-mono border rounded-md p-4 m-3">
         <div className="grid col-span-9">
           {inputFields.map((inputField, index) => (
@@ -212,6 +206,7 @@ const AdminShopOffer = () => {
                   onChange={(event) => handleInputChange(index, event)}
                 />
               </div>
+
               <div>
                 <button
                   className="bg-red-100   text-red-500 hover:bg-red-200"

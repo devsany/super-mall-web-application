@@ -7,6 +7,7 @@ const AdminDashboard = () => {
       <div>
         <NavLink to="/admin/create_shop">Create Shop</NavLink>
         <NavLink to="/admin/list_of_all_shop">View all Shop</NavLink>
+        <NavLink to="/admin/view/floor">View Floor wise shop</NavLink>
         {/* /admin/list_of_all_shop */}
       </div>
     </div>
