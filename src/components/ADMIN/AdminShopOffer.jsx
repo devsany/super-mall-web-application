@@ -55,9 +55,13 @@ const AdminShopOffer = () => {
       <div className="grid grid-cols-12 border rounded-md p-4 m-3">
         <div className="grid col-span-9">
           {inputFields.map((inputField, index) => (
-            <div className="grid-cols-4 mt-3 grid" key={index}>
+            <div className="grid-cols-4 mt-3 grid border p-4" key={index}>
               <div>
+                <div>
+                  <label htmlFor="offerName">Offer Name</label>
+                </div>
                 <input
+                  id="offerName"
                   required
                   className="border pl-2 m-2"
                   type="text"
@@ -68,7 +72,11 @@ const AdminShopOffer = () => {
                 />
               </div>
               <div>
+                <div>
+                  <label htmlFor="offerDiscription">Offer Discription</label>
+                </div>
                 <input
+                  id="offerDiscription"
                   className="border pl-2 m-2"
                   type="text"
                   name="offerDiscription"
@@ -85,8 +93,12 @@ const AdminShopOffer = () => {
         offerOriginalPrice: "",
         offerDiscountPrice: "", */}
               <div>
+                <div>
+                  <label htmlFor="offerDiscount">Offer Discount</label>
+                </div>
                 <input
                   className="border pl-2 m-2"
+                  id="offerDiscont"
                   type="text"
                   name="offerDiscount"
                   placeholder="offerDiscount"
@@ -95,9 +107,27 @@ const AdminShopOffer = () => {
                 />
               </div>
               <div>
+                <div>
+                  <label htmlFor="offerReleaseDate">Offer Release Date</label>
+                </div>
                 <input
+                  id="offerReleaseDate"
                   className="border pl-2 m-2"
-                  type="text"
+                  type="date"
+                  name="offerReleaseDate"
+                  placeholder="offerReleaseDate"
+                  value={inputField.offerReleaseDate}
+                  onChange={(event) => handleInputChange(index, event)}
+                />
+              </div>
+              <div>
+                <div>
+                  <label htmlFor="offerExpier">Offer Expier</label>
+                </div>
+                <input
+                  id="offerExpier"
+                  className="border pl-2 m-2"
+                  type="date"
                   name="offerExpier"
                   placeholder="offerExpier"
                   value={inputField.offerExpier}
@@ -105,7 +135,13 @@ const AdminShopOffer = () => {
                 />
               </div>
               <div>
+                <div>
+                  <label htmlFor="offerOriginalPrice">
+                    Offer Original Price
+                  </label>
+                </div>
                 <input
+                  id="offerOriginalPrice"
                   className="border pl-2 m-2"
                   type="text"
                   name="offerOriginalPrice"
@@ -115,7 +151,13 @@ const AdminShopOffer = () => {
                 />
               </div>
               <div>
+                <div>
+                  <label htmlFor="offerDiscountPrice">
+                    Offer Discount Price
+                  </label>
+                </div>
                 <input
+                  id="offerDiscountPrice"
                   className="border pl-2 m-2"
                   type="text"
                   name="offerDiscountPrice"
