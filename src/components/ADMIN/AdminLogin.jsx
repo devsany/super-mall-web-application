@@ -4,9 +4,9 @@ import {
   signOut,
 } from "firebase/auth";
 import { useEffect, useState } from "react";
-import { auth, googleProvider } from "../firebase/firebaseconsole";
+import { auth, googleProvider } from "../../firebase/firebaseconsole";
 
-import { db } from "../firebase/firebaseconsole";
+import { db } from "../../firebase/firebaseconsole";
 import {
   addDoc,
   collection,
@@ -14,14 +14,16 @@ import {
   deleteDoc,
   doc,
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
-  const [movie, setMovie] = useState([]);
-  const [email, setEmail] = useState("");
+  const [admin, setAdmin] = useState([]);
+  const [adminID, setAdminID] = useState("");
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [adminEmail, setAdminEmail] = useState("");
   const [role, setRole] = useState("");
+  const [error, setError] = useState({});
 
   console.log(auth?.currentUser?.photoURL);
   const signIn = async () => {
@@ -46,18 +48,18 @@ const AdminLogin = () => {
     }
   };
 
-  const movieCollection = collection(db, "admin");
+  const adminData = collection(db, "admin");
   const getAdminList = async () => {
     //READ THE DATA BASE
     //SET THE MOVIE LIST
     try {
-      const data = await getDocs(movieCollection);
+      const data = await getDocs(adminData);
       const filteredData = data.docs.map((doc) => ({
         ...doc.data(),
         id: doc.id,
       }));
       console.log(filteredData);
-      setMovie(filteredData);
+      setAdmin(filteredData);
     } catch (error) {
       console.error(error);
     }
@@ -81,27 +83,66 @@ const AdminLogin = () => {
     await deleteDoc(data);
     getAdminList();
   };
+  const nav = useNavigate();
+  const handleAdminSubmit = () => {
+    const error = {};
+    if (!adminID) {
+      error.adminID = "Require";
+    } else if (!password) {
+      error.password = "Require";
+    } else {
+      if (
+        admin[0].adminUserID === adminID &&
+        admin[0].adminPassword === password
+      ) {
+        nav("/admin");
+      } else {
+        return nav("/admin_error");
+      }
+    }
+    setError(error);
+  };
   useEffect(() => {
     getAdminList();
   }, []);
   return (
-    <div>
-      <input
-        type="password"
-        className="border"
-        placeholder="enter your email"
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <input
-        type="email"
-        className="border"
-        placeholder="enter your email"
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-
-      <button onClick={signIn}>SignIn</button>
+    <div className="w-full font-mono text-md h-[90vh] flex justify-center items-center">
+      <div className="border p-10">
+        <div className="p-3">
+          <div className=" font-bold">
+            <label htmlFor="adminId">Enter Admin ID*</label>
+          </div>
+          <input
+            type="text"
+            className="text-sm h-8 font-bold pl-2 border rounded-md"
+            value={adminID}
+            placeholder="Enter admin ID"
+            onChange={(e) => setAdminID(e.target.value)}
+            required
+          />
+          <div className="text-red-500 font-mono font-sm font-bold">
+            {error.adminID ? <>{error.adminID}</> : null}
+          </div>
+        </div>
+        <div className="p-3">
+          <div className="font-bold">
+            <label htmlFor="adminPassword">Enter Admin Password*</label>
+          </div>
+          <input
+            type="password"
+            className="text-sm h-8 font-bold pl-2 border rounded-md"
+            value={password}
+            placeholder="enter your email"
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+          <div className="text-red-500 font-mono font-sm font-bold ">
+            {error.password ? <>{error.password}</> : null}
+          </div>
+        </div>
+        <button onClick={handleAdminSubmit}>Submit</button>
+      </div>
+      {/* <button onClick={signIn}>SignIn</button>
       <button onClick={signInWithGoogle}>Sign in With google</button>
       <button onClick={Logout}>Log Out</button>
       <div>
@@ -135,8 +176,8 @@ const AdminLogin = () => {
           }}
         />
         <button onClick={addData}>Submit</button>
-      </div>
-      {movie.reverse().map((item, index) => (
+      </div> */}
+      {/* {movie.reverse().map((item, index) => (
         <>
           <div className="border p-3 m-2">
             <div>{index + 1}</div>
@@ -149,7 +190,7 @@ const AdminLogin = () => {
             </div>
           </div>
         </>
-      ))}
+      ))} */}
     </div>
   );
 };
