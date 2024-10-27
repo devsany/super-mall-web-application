@@ -10,6 +10,7 @@ const AdminDashboard = () => {
         <NavLink to="/admin/view/floor">View Floor wise shop</NavLink>
         {/* /admin/list_of_all_shop */}
       </div>
+      
     </div>
   );
 };

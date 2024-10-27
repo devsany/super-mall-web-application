@@ -11,31 +11,48 @@ const AdminCreateShop = () => {
     shopOwnerName: "",
     shopType: "",
   });
+  const [error, setError] = useState({});
   const nav = useNavigate();
   console.log(inputField.shopNumber);
   const handleSubmit = async (e) => {
     // input setup
     e.preventDefault();
-
-    //firebase setup
-    const db = getDatabase(app);
-    const newDocm = push(ref(db, "mall/shops"));
-    set(newDocm, {
-      shopNumber: inputField.shopNumber,
-      shopName: inputField.shopName,
-      shopFloor: inputField.shopFloor,
-      shopOwnerName: inputField.shopOwnerName,
-      shopType: inputField.shopType,
-      shopOffer: "",
-      
-    })
-      .then(() => {
-        alert("data saved successfully");
-        window.location.reload();
+    const error = {};
+    if (Number(inputField.shopNumber) <= 0) {
+      error.er1 = "Number should be greate then 0.";
+    } else if (Number(inputField.shopNumber) > 50) {
+      error.er2 = "Number should not be greater then 51";
+    } else if (!inputField.shopName) {
+      error.er3 = "Require";
+    } else if (!inputField.shopFloor) {
+      error.er4 = "Require";
+    } else if (inputField.shopFloor > 6) {
+      error.er5 = "Shop has only 5 floor";
+    } else if (!inputField.shopOwnerName) {
+      error.er6 = "Require";
+    } else if (!inputField.shopType) {
+      error.er7 = "Require";
+    } else {
+      const db = getDatabase(app);
+      //firebase setup
+      const newDocm = push(ref(db, "mall/shops"));
+      set(newDocm, {
+        shopNumber: inputField.shopNumber,
+        shopName: inputField.shopName,
+        shopFloor: inputField.shopFloor,
+        shopOwnerName: inputField.shopOwnerName,
+        shopType: inputField.shopType,
+        shopOffer: "",
       })
-      .catch((err) => {
-        alert("error", err.message);
-      });
+        .then(() => {
+          alert("data saved successfully");
+          window.location.reload();
+        })
+        .catch((err) => {
+          alert("error", err.message);
+        });
+    }
+    setError(error);
   };
   //   const handleChange = (e) => {
   //     const { name, value } = e.target;
@@ -66,7 +83,8 @@ const AdminCreateShop = () => {
                   setInputField({ ...inputField, shopNumber: e.target.value })
                 }
               />
-              <div>{}</div>
+              <div>{error ? <>{error.er1}</> : null}</div>
+              <div>{error ? <>{error.er2}</> : null}</div>
             </div>
             <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
               <div>
@@ -84,7 +102,7 @@ const AdminCreateShop = () => {
                   setInputField({ ...inputField, shopName: e.target.value })
                 }
               />
-              <div>{}</div>
+              <div>{error ? <>{error.er3}</> : null}</div>
             </div>
             <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
               <div>
@@ -102,7 +120,8 @@ const AdminCreateShop = () => {
                   setInputField({ ...inputField, shopFloor: e.target.value })
                 }
               />
-              <div>{}</div>
+              <div>{error ? <>{error.er4}</> : null}</div>
+              <div>{error ? <>{error.er5}</> : null}</div>
             </div>
             <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
               <div>
@@ -123,7 +142,7 @@ const AdminCreateShop = () => {
                   })
                 }
               />
-              <div>{}</div>
+              <div>{error ? <>{error.er6}</> : null}</div>
             </div>
             <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
               <div>
@@ -141,7 +160,7 @@ const AdminCreateShop = () => {
                   setInputField({ ...inputField, shopType: e.target.value })
                 }
               />
-              <div>{}</div>
+              <div>{error ? <>{error.er7}</> : null}</div>
             </div>
           </div>
           <div className="float-right m-4">
