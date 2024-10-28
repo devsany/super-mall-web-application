@@ -1,7 +1,7 @@
 import { useState } from "react";
 import app from "../../firebase/firebaseconsole";
 import { getDatabase, ref, push, set } from "firebase/database";
-import { useNavigate } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 
 const AdminCreateShop = () => {
   const [inputField, setInputField] = useState({
@@ -63,115 +63,141 @@ const AdminCreateShop = () => {
       <div className="text-center p-4">
         <h2 className="font-mono">New Shop Detail</h2>
       </div>
-      <div className="m-4">
-        <button onClick={() => nav("/admin")}>Back</button>
-        <form onSubmit={handleSubmit}>
-          <div className="md:grid md:grid-cols-4 gap-8">
-            <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3 flex-grow">
-              <div>
-                <label htmlFor="ShopNumber">Shop Number*</label>
-              </div>
-              <input
-                className="border pl-2"
-                type="number"
-                required
-                placeholder="Enter Shop Number"
-                id="ShopNumber"
-                name="ShopNumber"
-                value={inputField.shopNumber}
-                onChange={(e) =>
-                  setInputField({ ...inputField, shopNumber: e.target.value })
-                }
-              />
-              <div>{error ? <>{error.er1}</> : null}</div>
-              <div>{error ? <>{error.er2}</> : null}</div>
-            </div>
-            <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
-              <div>
-                <label htmlFor="ShopName">Shop Name*</label>
-              </div>
-              <input
-                className="border pl-2"
-                type="text"
-                required
-                placeholder="Enter Shop Name"
-                id="ShopName"
-                name="ShopName"
-                value={inputField.shopName}
-                onChange={(e) =>
-                  setInputField({ ...inputField, shopName: e.target.value })
-                }
-              />
-              <div>{error ? <>{error.er3}</> : null}</div>
-            </div>
-            <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
-              <div>
-                <label htmlFor="ShopFloor">Shop Floor*</label>
-              </div>
-              <input
-                className="border pl-2"
-                type="number"
-                required
-                placeholder="Enter Mall Floor where shop made"
-                id="ShopFloor"
-                name="ShopFloor"
-                value={inputField.shopFloor}
-                onChange={(e) =>
-                  setInputField({ ...inputField, shopFloor: e.target.value })
-                }
-              />
-              <div>{error ? <>{error.er4}</> : null}</div>
-              <div>{error ? <>{error.er5}</> : null}</div>
-            </div>
-            <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
-              <div>
-                <label htmlFor="ShopOwnerName">Shop Owner Name*</label>
-              </div>
-              <input
-                className="border pl-2"
-                type="text"
-                required
-                placeholder="Enter Shop Owner Name"
-                id="ShopOwnerName"
-                name="ShopOwnerName"
-                value={inputField.shopOwnerName}
-                onChange={(e) =>
-                  setInputField({
-                    ...inputField,
-                    shopOwnerName: e.target.value,
-                  })
-                }
-              />
-              <div>{error ? <>{error.er6}</> : null}</div>
-            </div>
-            <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
-              <div>
-                <label htmlFor="ShopType">Shop Type*</label>
-              </div>
-              <input
-                className="border pl-2"
-                type="text"
-                required
-                placeholder="Enter Shop Owner Name"
-                id="ShopType"
-                name="ShopType"
-                value={inputField.shopType}
-                onChange={(e) =>
-                  setInputField({ ...inputField, shopType: e.target.value })
-                }
-              />
-              <div>{error ? <>{error.er7}</> : null}</div>
-            </div>
+      <div className="grid grid-cols-11">
+        <div className="border col-span-2">
+          <div>
+            <NavLink to="/admin">OverView Admin panel</NavLink>
           </div>
-          <div className="float-right m-4">
-            <button
-              className="bg-green-100 border-slate-300 border"
-              type="submit"
-            >
-              Submit
-            </button>
+          <div>
+            <NavLink to="/admin/create_shop">Create Shop</NavLink>
           </div>
-        </form>
+          <div>
+            <NavLink to="/admin/list_of_all_shop">View all Shop</NavLink>
+          </div>
+          <div>
+            <NavLink to="/admin/view/floor">View Floor wise shop</NavLink>
+          </div>
+        </div>
+        <div className="col-span-9 border">
+          {" "}
+          <div className="m-4">
+            {/* <button onClick={() => nav("/admin")}>Back</button> */}
+            <form onSubmit={handleSubmit}>
+              <div className="md:grid md:grid-cols-4 gap-8">
+                <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3 flex-grow">
+                  <div>
+                    <label htmlFor="ShopNumber">Shop Number*</label>
+                  </div>
+                  <input
+                    className="border pl-2"
+                    type="number"
+                    required
+                    placeholder="Enter Shop Number"
+                    id="ShopNumber"
+                    name="ShopNumber"
+                    value={inputField.shopNumber}
+                    onChange={(e) =>
+                      setInputField({
+                        ...inputField,
+                        shopNumber: e.target.value,
+                      })
+                    }
+                  />
+                  <div>{error ? <>{error.er1}</> : null}</div>
+                  <div>{error ? <>{error.er2}</> : null}</div>
+                </div>
+                <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
+                  <div>
+                    <label htmlFor="ShopName">Shop Name*</label>
+                  </div>
+                  <input
+                    className="border pl-2"
+                    type="text"
+                    required
+                    placeholder="Enter Shop Name"
+                    id="ShopName"
+                    name="ShopName"
+                    value={inputField.shopName}
+                    onChange={(e) =>
+                      setInputField({ ...inputField, shopName: e.target.value })
+                    }
+                  />
+                  <div>{error ? <>{error.er3}</> : null}</div>
+                </div>
+                <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
+                  <div>
+                    <label htmlFor="ShopFloor">Shop Floor*</label>
+                  </div>
+                  <input
+                    className="border pl-2"
+                    type="number"
+                    required
+                    placeholder="Enter Mall Floor where shop made"
+                    id="ShopFloor"
+                    name="ShopFloor"
+                    value={inputField.shopFloor}
+                    onChange={(e) =>
+                      setInputField({
+                        ...inputField,
+                        shopFloor: e.target.value,
+                      })
+                    }
+                  />
+                  <div>{error ? <>{error.er4}</> : null}</div>
+                  <div>{error ? <>{error.er5}</> : null}</div>
+                </div>
+                <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
+                  <div>
+                    <label htmlFor="ShopOwnerName">Shop Owner Name*</label>
+                  </div>
+                  <input
+                    className="border pl-2"
+                    type="text"
+                    required
+                    placeholder="Enter Shop Owner Name"
+                    id="ShopOwnerName"
+                    name="ShopOwnerName"
+                    value={inputField.shopOwnerName}
+                    onChange={(e) =>
+                      setInputField({
+                        ...inputField,
+                        shopOwnerName: e.target.value,
+                      })
+                    }
+                  />
+                  <div>{error ? <>{error.er6}</> : null}</div>
+                </div>
+                <div className=" border rounded-md pl-3 pr-3 pt-2 pb-2 mt-3">
+                  <div>
+                    <label htmlFor="ShopType">Shop Type*</label>
+                  </div>
+                  <input
+                    className="border pl-2"
+                    type="text"
+                    required
+                    placeholder="Enter Shop Owner Name"
+                    id="ShopType"
+                    name="ShopType"
+                    value={inputField.shopType}
+                    onChange={(e) =>
+                      setInputField({ ...inputField, shopType: e.target.value })
+                    }
+                  />
+                  <div>{error ? <>{error.er7}</> : null}</div>
+                </div>
+              </div>
+              <div className="float-right m-4">
+                <button
+                  className="bg-green-100 border-slate-300 border"
+                  type="submit"
+                >
+                  Submit
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        {/* /admin/list_of_all_shop */}
       </div>
     </div>
   );

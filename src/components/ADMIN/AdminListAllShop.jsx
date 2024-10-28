@@ -7,10 +7,11 @@ const AdminListAllShop = () => {
   const [data, setData] = useState([]);
   const [shopKey, setShopKey] = useState("");
   const nav = useNavigate();
+  const [initial, setInitial] = useState(0);
 
   const fetchData = async () => {
     const db = getDatabase(app);
-    const dataRef = ref(db, "mall/shops"); 
+    const dataRef = ref(db, "mall/shops");
     const snapshot = await get(dataRef);
     if (snapshot.exists()) {
       setData(Object.values(snapshot.val()));
@@ -54,61 +55,103 @@ const AdminListAllShop = () => {
       <div className="text-center font-mono">
         <h2>All Shop</h2>
       </div>
-      <button onClick={() => nav("/admin")}>Back</button>
-      <div className="relative overflow-x-auto">
-        <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-            <tr>
-              <th scope="col" className="px-6 py-3">
-                Shop Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Shop Owner Name
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Shop Number
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Mall Floor
-              </th>
-              <th scope="col" className="px-6 py-3">
-                Shop Type
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            {data &&
-              data.map((item, index) => {
-                return (
-                  <>
-                    <tr className="border-b-2" key={index}>
-                      <td className="px-6 py-4">{item.shopName}</td>
-                      <td className="px-6 py-4">{item.shopOwnerName}</td>
-                      <td className="px-6 py-4">{item.shopNumber}</td>
-                      <td className="px-6 py-4">{item.shopFloor}</td>
-                      <td className="px-6 py-4">{item.shopType}</td>
-                      <td>
-                        <NavLink
-                          to={`/admin/view/${index}`}
-                          className="bg-blue-100 pl-4 pt-2 pb-2 rounded-md pr-4 hover:text-blue-700 border border-slate-300"
+
+      <div className="grid grid-cols-11">
+        <div className="border col-span-2">
+          <div>
+            <NavLink to="/admin">OverView Admin panel</NavLink>
+          </div>
+          <div>
+            <NavLink to="/admin/create_shop">Create Shop</NavLink>
+          </div>
+          <div>
+            <NavLink to="/admin/list_of_all_shop">View all Shop</NavLink>
+          </div>
+          <div>
+            <NavLink to="/admin/view/floor">View Floor wise shop</NavLink>
+          </div>
+        </div>
+        <div className="col-span-9 border">
+          {/* <button onClick={() => nav("/admin")}>Back</button> */}
+          <div className="relative overflow-x-auto">
+            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                <tr>
+                  <th scope="col" className="px-6 py-3">
+                    S No.
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Shop Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Shop Owner Name
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Shop Number
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Mall Floor
+                  </th>
+                  <th scope="col" className="px-6 py-3">
+                    Shop Type
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="transition-opacity duration-500">
+                {data &&
+                  data.slice(initial, initial + 5).map((item, index) => {
+                    return (
+                      <>
+                        <tr
+                          className="border-b-2  hover:bg-blue-100"
+                          key={index}
                         >
-                          View
-                        </NavLink>
-                      </td>
-                      <td>
-                        <button
-                          onClick={() => handleDeleteShop(index)}
-                          className="bg-red-200 hover:text-red-700 border border-red-300"
-                        >
-                          Delete
-                        </button>
-                      </td>
-                    </tr>
-                  </>
-                );
-              })}
-          </tbody>
-        </table>
+                          <td className="px-6 text-center py-4">{index + 1}</td>
+                          <td className="px-6 py-4">{item.shopName}</td>
+                          <td className="px-6 py-4">{item.shopOwnerName}</td>
+                          <td className="px-6 py-4">{item.shopNumber}</td>
+                          <td className="px-6 py-4">{item.shopFloor}</td>
+                          <td className="px-6 py-4">{item.shopType}</td>
+                          <td>
+                            <NavLink
+                              to={`/admin/view/${index}`}
+                              className="bg-blue-100 pl-4 pt-2 pb-2 rounded-md pr-4 hover:text-blue-700 border border-slate-300"
+                            >
+                              View
+                            </NavLink>
+                          </td>
+                          <td>
+                            <button
+                              onClick={() => handleDeleteShop(index)}
+                              className="bg-red-200 hover:text-red-700 border border-red-300"
+                            >
+                              Delete
+                            </button>
+                          </td>
+                        </tr>
+                      </>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+          <div className="float-end">
+            page - {initial == 0 ? 1 : <>{initial - 3}</>}
+          </div>
+          {initial > 0 && (
+            <button onClick={() => setInitial(initial - 5)}>Previous</button>
+          )}
+          {initial <= data.length && (
+            <button
+              onClick={() => {
+                setInitial(initial + 5);
+              }}
+            >
+              Next
+            </button>
+          )}
+        </div>
+        {/* /admin/list_of_all_shop */}
       </div>
     </div>
   );
