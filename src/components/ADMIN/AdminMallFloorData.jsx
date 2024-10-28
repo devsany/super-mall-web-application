@@ -1,12 +1,14 @@
-import { forceLongPolling, get, getDatabase, ref } from "firebase/database";
-import React, { useEffect, useMemo, useState } from "react";
+import { get, getDatabase, ref } from "firebase/database";
+import { useEffect, useState } from "react";
 import app from "../../firebase/firebaseconsole";
-import { NavLink, useNavigate } from "react-router-dom";
-import { query } from "firebase/firestore";
+import { NavLink } from "react-router-dom";
 
 const AdminMallFloorData = () => {
-  const [floorNumber, setFloorNumber] = useState(0);
+  const [floorNumber, setFloorNumber] = useState("");
   const [data, setData] = useState([]);
+  const [showTable, setShowTable] = useState(false);
+  const [message, setMessage] = useState(false);
+  const [floorWiseDataToTable, setFloorWiseDataToTable] = useState([]);
   const fetchData = async () => {
     const db = getDatabase(app);
     const dataRef = ref(db, "mall/shops");
@@ -17,8 +19,19 @@ const AdminMallFloorData = () => {
       alert("data is not found");
     }
   };
+  const handleShowFloor = () => {
+    const floorWiseData = data.filter((item) => item.shopFloor == floorNumber);
+    setFloorWiseDataToTable(floorWiseData);
+    if (floorWiseData.length > 0) {
+      setShowTable(true);
+      setMessage(false);
+    } else {
+      setShowTable(false);
+      setMessage(true);
+    }
+  };
 
-  const nav = useNavigate();
+  // const nav = useNavigate();
   useEffect(() => {
     fetchData();
   }, []);
@@ -73,46 +86,62 @@ const AdminMallFloorData = () => {
               placeholder="Enter floor number"
               onChange={(e) => setFloorNumber(e.target.value)}
             />
+            <button onClick={handleShowFloor}>Show</button>
           </div>
-          <div className="relative overflow-x-auto">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
-              <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
-                <tr>
-                  <th scope="col" className="px-6 py-3">
-                    Shop Name
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Shop Owner Name
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Shop Number
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Mall Floor
-                  </th>
-                  <th scope="col" className="px-6 py-3">
-                    Shop Type
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
-                {data &&
-                  data.map((item, index) => {
-                    return (
-                      <>
-                        <tr className="border-b-2" key={index}>
-                          <td className="px-6 py-4">{item.shopName}</td>
-                          <td className="px-6 py-4">{item.shopOwnerName}</td>
-                          <td className="px-6 py-4">{item.shopNumber}</td>
-                          <td className="px-6 py-4">{item.shopFloor}</td>
-                          <td className="px-6 py-4">{item.shopType}</td>
-                        </tr>
-                      </>
-                    );
-                  })}
-              </tbody>
-            </table>
-          </div>
+          {showTable ? (
+            <>
+              <div className="relative overflow-x-auto">
+                <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+                  <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+                    <tr>
+                      <th scope="col" className="px-6 py-3">
+                        Shop Name
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Shop Owner Name
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Shop Number
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Mall Floor
+                      </th>
+                      <th scope="col" className="px-6 py-3">
+                        Shop Type
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {floorWiseDataToTable &&
+                      floorWiseDataToTable.map((item, index) => {
+                        return (
+                          <>
+                            <tr className="border-b-2" key={index}>
+                              <td className="px-6 py-4">{item.shopName}</td>
+                              <td className="px-6 py-4">
+                                {item.shopOwnerName}
+                              </td>
+                              <td className="px-6 py-4">{item.shopNumber}</td>
+                              <td className="px-6 py-4">{item.shopFloor}</td>
+                              <td className="px-6 py-4">{item.shopType}</td>
+                            </tr>
+                          </>
+                        );
+                      })}
+                  </tbody>
+                </table>
+              </div>
+            </>
+          ) : (
+            <>
+              {message ? (
+                <>
+                  {" "}
+                  <>Shop Do Not Exist on floor {floorNumber}</>
+                </>
+              ) : null}
+            </>
+          )}
         </div>
         {/* /admin/list_of_all_shop */}
       </div>
