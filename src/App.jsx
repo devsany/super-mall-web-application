@@ -15,6 +15,7 @@ import AdminListAllShop from "./components/ADMIN/AdminListAllShop";
 import AdminViewShopID from "./components/ADMIN/AdminViewShopID";
 import AdminShopOffer from "./components/ADMIN/AdminShopOffer";
 import AdminMallFloorData from "./components/ADMIN/AdminMallFloorData";
+import AdminMallCategory from "./components/ADMIN/AdminMallCategory";
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
         <Route path="/admin/view/:id" element={<AdminViewShopID />} />
         <Route path="/admin/view/offer/:id" element={<AdminShopOffer />} />
         <Route path="/admin/view/floor" element={<AdminMallFloorData />} />
+        <Route path="/admin/view/category" element={<AdminMallCategory />} />
         {/* Add other routes here */}
       </Routes>
     </Router>

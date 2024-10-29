@@ -60,6 +60,7 @@ const AdminShopOffer = () => {
       })
         .then(() => {
           alert("offer updated successfully!");
+          window.location.reload();
         })
         .catch((error) => {
           alert("Error updating teacher:", error);

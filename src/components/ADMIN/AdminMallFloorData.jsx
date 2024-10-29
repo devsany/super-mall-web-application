@@ -75,6 +75,14 @@ const AdminMallFloorData = () => {
               View Floor wise shop
             </NavLink>
           </div>
+          <div>
+            <NavLink
+              className="block pt-2 mt-1 ml-1 mr-1 pb-2 text-center border-b-2 transition-transform transform hover:scale-105 text-gray-700 hover:bg-gray-100 rounded-lg"
+              to="/admin/view/category"
+            >
+              View Category shop
+            </NavLink>
+          </div>
         </div>
         <div className="col-span-9 border">
           {/* <button onClick={() => nav("/admin")}>Back</button> */}

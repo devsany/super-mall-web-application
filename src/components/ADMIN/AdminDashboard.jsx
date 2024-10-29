@@ -1,7 +1,7 @@
 import { get, getDatabase, ref } from "firebase/database";
 import { NavLink } from "react-router-dom";
 import app from "../../firebase/firebaseconsole";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const AdminDashboard = () => {
   const [data, setData] = useState([]);
@@ -26,14 +26,39 @@ const AdminDashboard = () => {
       alert("data is not found");
     }
   };
-  const floor_1 = data.filter((item) => {
-    return item.shopFloor === "1";
-  });
-  console.log(floor_1);
-  const newArray = new Array(10).fill("");
-  console.log(newArray);
+  //floor 1
+  const floor_1 = useMemo(() => {
+    return data.filter((item) => {
+      return item.shopFloor === "1";
+    });
+  }, [data]);
+  //floor 2
+  const floor_2 = useMemo(() => {
+    return data.filter((item) => {
+      return item.shopFloor === "2";
+    });
+  }, [data]);
+  //floor 3
+  const floor_3 = useMemo(() => {
+    return data.filter((item) => {
+      return item.shopFloor === "3";
+    });
+  }, [data]);
 
- 
+  //floor 4
+  const floor_4 = useMemo(() => {
+    return data.filter((item) => {
+      return item.shopFloor === "4";
+    });
+  }, [data]);
+
+  //floor 5
+  const floor_5 = useMemo(() => {
+    return data.filter((item) => {
+      return item.shopFloor === "5";
+    });
+  }, [data]);
+
   useEffect(() => {
     fetchData();
   }, []);
@@ -73,16 +98,109 @@ const AdminDashboard = () => {
               View Floor wise shop
             </NavLink>
           </div>
+          <div>
+            <NavLink
+              className="block pt-2 mt-1 ml-1 mr-1 pb-2 text-center border-b-2 transition-transform transform hover:scale-105 text-gray-700 hover:bg-gray-100 rounded-lg"
+              to="/admin/view/category"
+            >
+              View Category shop
+            </NavLink>
+          </div>
         </div>
         <div className="col-span-9 border">
-          <div>
+          <div className="flex">
             <div>floor 1:-</div>
-            <div>{f1.map()}</div>
+            <div className="flex">
+              {floor_1.length > 0 ? (
+                <>
+                  {floor_1.map((item, index) => {
+                    return (
+                      <>
+                        <div>{item.shopNumber}</div>
+                      </>
+                    );
+                  })}
+                </>
+              ) : (
+                <>No any Shop</>
+              )}
+            </div>
           </div>
-          <div>floor 2:-</div>
-          <div>floor 3:-</div>
-          <div>floor 4:-</div>
-          <div>floor 5:-</div>
+          <div className="flex">
+            <div>floor 2:-</div>
+            <div>
+              <div className="flex">
+                {floor_2.length > 0 ? (
+                  <>
+                    {floor_2.map((item, index) => {
+                      return (
+                        <>
+                          <div>{item.shopNumber}</div>
+                        </>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>No any Shop</>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="flex">
+            <div>floor 3:-</div>
+            <div className="flex">
+              {floor_3.length > 0 ? (
+                <>
+                  {floor_3.map((item, index) => {
+                    return (
+                      <>
+                        <div>{item.shopNumber}</div>
+                      </>
+                    );
+                  })}
+                </>
+              ) : (
+                <>No any Shop</>
+              )}
+            </div>
+          </div>
+          <div className="flex">
+            <div>floor 4:-</div>
+            <div className="flex">
+              {floor_4.length > 0 ? (
+                <>
+                  {floor_4.map((item, index) => {
+                    return (
+                      <>
+                        <div>{item.shopNumber}</div>
+                      </>
+                    );
+                  })}
+                </>
+              ) : (
+                <>No any Shop</>
+              )}
+            </div>
+          </div>
+          <div className="flex">
+            <div>floor 5:-</div>
+            <div className="flex">
+              {floor_5.length > 0 ? (
+                <>
+                  {floor_5.map((item, index) => {
+                    return (
+                      <>
+                        <div>{item.shopNumber}</div>
+                      </>
+                    );
+                  })}
+                </>
+              ) : (
+                <>No any Shop</>
+              )}
+            </div>
+          </div>
         </div>
         {/* /admin/list_of_all_shop */}
       </div>

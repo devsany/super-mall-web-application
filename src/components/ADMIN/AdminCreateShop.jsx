@@ -97,6 +97,14 @@ const AdminCreateShop = () => {
               View Floor wise shop
             </NavLink>
           </div>
+          <div>
+            <NavLink
+              className="block pt-2 mt-1 ml-1 mr-1 pb-2 text-center border-b-2 transition-transform transform hover:scale-105 text-gray-700 hover:bg-gray-100 rounded-lg"
+              to="/admin/view/category"
+            >
+              View Category shop
+            </NavLink>
+          </div>
         </div>
         <div className="col-span-9 border">
           {" "}
@@ -191,7 +199,21 @@ const AdminCreateShop = () => {
                   <div>
                     <label htmlFor="ShopType">Shop Type*</label>
                   </div>
-                  <input
+                  <select
+                    className="border cursor-pointer"
+                    name=""
+                    id=""
+                    onChange={(e) =>
+                      setInputField({ ...inputField, shopType: e.target.value })
+                    }
+                  >
+                    <option value="#">Select Catogery of shop</option>
+                    <option value="tech">Technology</option>
+                    <option value="veg">Vegitable</option>
+                    <option value="fruit">Fruit</option>
+                    <option value="cyber">Cyber Cafe</option>
+                  </select>
+                  {/* <input
                     className="border pl-2"
                     type="text"
                     required
@@ -202,7 +224,7 @@ const AdminCreateShop = () => {
                     onChange={(e) =>
                       setInputField({ ...inputField, shopType: e.target.value })
                     }
-                  />
+                  /> */}
                   <div>{error ? <>{error.er7}</> : null}</div>
                 </div>
               </div>
