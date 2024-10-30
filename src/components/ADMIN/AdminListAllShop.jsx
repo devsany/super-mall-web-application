@@ -1,14 +1,16 @@
 import { get, getDatabase, ref, remove } from "firebase/database";
-import React, { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import app from "../../firebase/firebaseconsole";
-import { NavLink, useNavigate, useSearchParams } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
+import AdminNavigation from "./AdminNavigation";
+import { DownloadTableExcel } from "react-export-table-to-excel";
 
 const AdminListAllShop = () => {
   const [data, setData] = useState([]);
   const [shopKey, setShopKey] = useState("");
   const nav = useNavigate();
   const [initial, setInitial] = useState(0);
-
+  const tableRef = useRef(null);
   const fetchData = async () => {
     const db = getDatabase(app);
     const dataRef = ref(db, "mall/shops");
@@ -58,51 +60,21 @@ const AdminListAllShop = () => {
 
       <div className="grid grid-cols-11">
         <div className="border col-span-2">
-          <div>
-            <NavLink
-              className="block pt-2 mt-1 ml-1 mr-1 pb-2 text-center border-b-2 transition-transform transform hover:scale-105 text-gray-700 hover:bg-gray-100 rounded-lg"
-              to="/admin"
-            >
-              OverView Admin panel
-            </NavLink>
-          </div>
-          <div>
-            <NavLink
-              className="block pt-2 mt-1 ml-1 mr-1 pb-2 text-center border-b-2 transition-transform transform hover:scale-105 text-gray-700 hover:bg-gray-100 rounded-lg"
-              to="/admin/create_shop"
-            >
-              Create Shop
-            </NavLink>
-          </div>
-          <div>
-            <NavLink
-              className="block pt-2 mt-1 ml-1 mr-1 pb-2 text-center border-b-2 transition-transform transform hover:scale-105 text-gray-700 hover:bg-gray-100 rounded-lg"
-              to="/admin/list_of_all_shop"
-            >
-              View all Shop
-            </NavLink>
-          </div>
-          <div>
-            <NavLink
-              className="block pt-2 mt-1 ml-1 mr-1 pb-2 text-center border-b-2 transition-transform transform hover:scale-105 text-gray-700 hover:bg-gray-100 rounded-lg"
-              to="/admin/view/floor"
-            >
-              View Floor wise shop
-            </NavLink>
-          </div>
-          <div>
-            <NavLink
-              className="block pt-2 mt-1 ml-1 mr-1 pb-2 text-center border-b-2 transition-transform transform hover:scale-105 text-gray-700 hover:bg-gray-100 rounded-lg"
-              to="/admin/view/category"
-            >
-              View Category shop
-            </NavLink>
-          </div>
+          <AdminNavigation />
         </div>
         <div className="col-span-9 border">
           {/* <button onClick={() => nav("/admin")}>Back</button> */}
           <div className="relative overflow-x-auto">
-            <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <DownloadTableExcel
+              filename="users table"
+              currentTableRef={tableRef.current}
+            >
+              <button> Export excel </button>
+            </DownloadTableExcel>
+            <table
+              ref={tableRef}
+              className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400"
+            >
               <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                   <th scope="col" className="px-6 py-3">
