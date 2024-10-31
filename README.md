@@ -23,4 +23,4 @@
   - Floor Wise Details
   - View Shop Details
 
-  ![alt text](diagram-export-31-10-2024-08_02_02.png)
+![alt text](diagram-export-31-10-2024-08_02_02-1.png)
