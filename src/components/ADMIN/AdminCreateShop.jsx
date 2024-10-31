@@ -174,6 +174,7 @@ const AdminCreateShop = () => {
                     <option value="veg">Vegitable</option>
                     <option value="fruit">Fruit</option>
                     <option value="cyber">Cyber Cafe</option>
+                    <option value="chicken">Chicken shop</option>
                   </select>
                   {/* <input
                     className="border pl-2"

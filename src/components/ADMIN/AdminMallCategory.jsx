@@ -57,6 +57,7 @@ const AdminMallCategory = () => {
             <option value="veg">Vegitable</option>
             <option value="fruit">Fruit</option>
             <option value="cyber">Cyber Cafe</option>
+            <option value="chicken">Chicken Shop</option>
           </select>
           <div>
             <button onClick={handleClick}>Submit</button>
