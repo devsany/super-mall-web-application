@@ -99,7 +99,7 @@ const AdminListAllShop = () => {
               </thead>
               <tbody className="transition-opacity duration-500">
                 {data &&
-                  data.slice(initial, initial + 5).map((item, index) => {
+                  data.map((item, index) => {
                     return (
                       <>
                         <tr

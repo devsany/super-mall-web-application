@@ -7,6 +7,7 @@ const Home = () => {
   const [inputField, setInputField] = useState("");
   const [mainCatgoriesData, setMainCategoriesData] = useState([]);
   const [data, setData] = useState([]);
+  const [offer, setOffer] = useState([]);
   console.log(data);
   const handleClick = () => {
     const categories = data.filter((item) => {
@@ -24,6 +25,9 @@ const Home = () => {
     } else {
       alert("data is not found");
     }
+  };
+  const handleOfferProduct = () => {
+    setOffer(data);
   };
   useEffect(() => {
     fetchData();
@@ -115,7 +119,49 @@ const Home = () => {
                 </table>
               </>
             ) : (
-              <>No Categories selected</>
+              <>
+                {offer.length > 0 ? (
+                  <>
+                    {offer.map((item) => {
+                      return (
+                        <>
+                          <div className="">
+                            <div className="border ">
+                              <h2>Shop Offer Detail</h2>
+                              <div>Shop Number:{item.shopFloor}</div>
+                              <div>Shop Name: {item.shopName}</div>
+                              <div>
+                                Offer:
+                                {typeof item.shopOffer === "string" ? (
+                                  <>No offer</>
+                                ) : (
+                                  <>
+                                    {item.shopOffer.map((item, index) => {
+                                      return (
+                                        <>
+                                          <div>{item.offerName}</div>
+                                          <div>{item.offerDiscription}</div>
+                                          <div>{item.offerReleaseDate}</div>
+                                          <div>{item.offerDiscount}</div>
+                                          <div>{item.offerExpier}</div>
+                                          <div>{item.offerOriginalPrice}</div>
+                                          <div>{item.offerDiscountPrice}</div>
+                                        </>
+                                      );
+                                    })}
+                                  </>
+                                )}
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      );
+                    })}
+                  </>
+                ) : (
+                  <>No Categories selected</>
+                )}
+              </>
             )}
           </div>
           <div className="col-span-2 border rounded">
